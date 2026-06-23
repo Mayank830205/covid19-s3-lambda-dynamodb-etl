@@ -1,0 +1,29 @@
+[
+  {
+    "country": "INDIA",
+    "continent": "Asia",
+    "population": 1400000000,
+    "total_cases": 45000000,
+    "active_cases": 12000,
+    "recovered": 44455000,
+    "deaths": 533000,
+    "critical": 100,
+    "cases_per_million": 32142.86,
+    "risk_level": "MEDIUM",
+    "processed_at_utc": "2026-01-01T00:00:00+00:00"
+  },
+  {
+    "country": "EXAMPLELAND",
+    "continent": "Example Continent",
+    "population": 5000000,
+    "total_cases": 400000,
+    "active_cases": 7500,
+    "recovered": 388500,
+    "deaths": 4000,
+    "critical": 25,
+    "cases_per_million": 80000,
+    "risk_level": "LOW",
+    "processed_at_utc": "2026-01-01T00:00:00+00:00"
+  }
+]
+
