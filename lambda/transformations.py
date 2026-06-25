@@ -1,36 +1,36 @@
-"""Transform and validate COVID-19 records."""
-
 from decimal import Decimal
 
 
 def get_risk_level(active_cases):
-    """Return the risk level based on active cases."""
+    """Return risk level based on active cases."""
+
     active_cases = Decimal(str(active_cases))
 
-    if active_cases >= 100000:
+    if active_cases >= Decimal("100000"):
         return "HIGH"
-    elif active_cases >= 10000:
+    elif active_cases >= Decimal("10000"):
         return "MEDIUM"
     else:
         return "LOW"
 
 
 def validate_record(record):
-    """Check whether the record is valid."""
+    """Validate source record."""
 
     if not record.get("country"):
         return False
 
-    if record.get("population", 0) <= 0:
+    try:
+        population = int(record.get("population"))
+    except (TypeError, ValueError):
         return False
 
-    return True
+    return population > 0
 
 
 def build_item(record, processed_at):
-    """Convert API record into a DynamoDB item."""
-    print(f"Processing Country : {record['country']}")
-    
+    """Convert API record into DynamoDB item."""
+
     return {
         "country": record["country"].strip().upper(),
         "continent": record.get("continent", "UNKNOWN"),
@@ -44,4 +44,3 @@ def build_item(record, processed_at):
         "risk_level": get_risk_level(record.get("active", 0)),
         "processed_at_utc": processed_at,
     }
-
