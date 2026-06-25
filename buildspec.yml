@@ -7,7 +7,7 @@ phases:
     commands:
       - echo "Installing Lambda dependencies..."
       - mkdir package
-      - pip install -r lambda/requirements.txt -t package
+      - if [ -s lambda/requirements.txt ]; then pip install -r lambda/requirements.txt -t package; fi
 
   build:
     commands:
@@ -19,4 +19,3 @@ phases:
 artifacts:
   files:
     - function.zip
-
