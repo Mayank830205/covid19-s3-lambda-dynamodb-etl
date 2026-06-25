@@ -7,7 +7,7 @@ from utils import generate_timestamp, load_json_from_s3
 
 def lambda_handler(event, context):
 
-    print("========== COVID-19 ETL Pipeline Started =====")
+    print("========== COVID-19 ETL Pipeline Started ==========")
 
     bucket_name = os.environ["BUCKET_NAME"]
     object_key = os.environ["OBJECT_KEY"]
