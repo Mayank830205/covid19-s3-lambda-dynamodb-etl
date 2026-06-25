@@ -101,4 +101,5 @@ def lambda_handler(
         "processed_at_utc": processed_at,
     }
     LOGGER.info("ETL completed: %s", summary)
+    print("Pipeline deployment successful")
     return summary
