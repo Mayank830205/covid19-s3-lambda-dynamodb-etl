@@ -5,17 +5,14 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      - echo "Installing Lambda dependencies..."
       - mkdir package
       - if [ -s lambda/requirements.txt ]; then pip install -r lambda/requirements.txt -t package; fi
 
   build:
     commands:
-      - echo "Packaging Lambda..."
       - cp lambda/*.py package/
-      - cd package
-      - zip -r ../function.zip .
 
 artifacts:
+  base-directory: package
   files:
-    - function.zip
+    - '**/*'
