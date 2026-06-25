@@ -15,7 +15,8 @@ from transformations import (
 
 
 def test_get_risk_level():
-    assert get_risk_level(5000) == "LOW"
+    assert get_risk_level(9999) == "LOW"
     assert get_risk_level(10000) == "MEDIUM"
-    assert get
+    assert get_risk_level(99999) == "MEDIUM"
+    assert get_risk_level(100000) == "HIGH"
 
