@@ -1,37 +1,29 @@
+gitignore
 # Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
-.coverage
-htmlcov/
 
-# Virtual environments
+# Virtual Environment
 .venv/
 venv/
-env/
-.test-deps/
 
-# IDE and operating system
-.idea/
+# IDE
 .vscode/
-.DS_Store
-Thumbs.db
+.idea/
 
-# Local configuration and credentials
+# Environment Variables
 .env
 .env.*
 !.env.example
-*.pem
-*.key
-.aws/
 
-# Build and deployment artifacts
+# Build Files
 build/
 dist/
 package/
 *.zip
 
-# Generated source data (sample files remain versioned)
+# Raw Generated Data
 data/raw/*.json
 !data/raw/.gitkeep

@@ -8,7 +8,8 @@ import boto3
 
 
 def load_json_from_s3(bucket_name, object_key):
-    """Read a JSON file from S3."""
+
+    print(f"Downloading file from s3://{bucket_name}/{object_key}")
 
     s3 = boto3.client("s3")
 
@@ -23,8 +24,9 @@ def load_json_from_s3(bucket_name, object_key):
         parse_int=Decimal,
     )
 
-    return data
+    print("File downloaded successfully")
 
+    return data
 
 def generate_timestamp():
     """Return the current UTC timestamp."""

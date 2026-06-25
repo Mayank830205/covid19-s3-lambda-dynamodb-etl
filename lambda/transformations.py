@@ -29,7 +29,8 @@ def validate_record(record):
 
 def build_item(record, processed_at):
     """Convert API record into a DynamoDB item."""
-
+    print(f"Processing Country : {record['country']}")
+    
     return {
         "country": record["country"].strip().upper(),
         "continent": record.get("continent", "UNKNOWN"),
