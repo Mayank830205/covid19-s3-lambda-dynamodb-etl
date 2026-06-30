@@ -1,48 +1,84 @@
-"""Extract COVID-19 data from API and save it locally."""
-
 import json
 from pathlib import Path
 
+import pandas as pd
 import requests
 
-API_URL = "https://disease.sh/v3/covid-19/countries"
-OUTPUT_FILE = Path("data/raw/covid_data.json")
+COVID_URL = "https://disease.sh/v3/covid-19/countries"
+VACCINE_URL = "https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=1"
+HOSPITAL_URL = "https://storage.googleapis.com/covid19-open-data/v3/hospitalizations.csv"
+
+RAW_DIR = Path("data/raw")
+
+COVID_FILE = RAW_DIR / "covid_data.json"
+VACCINE_FILE = RAW_DIR / "vaccine_data.csv"
+HOSPITAL_FILE = RAW_DIR / "hospital_data.parquet"
 
 
 def fetch_covid_data():
-    """Fetch COVID-19 country data."""
+    print("Fetching COVID-19 data...")
 
-    print("========== Data Extraction Started ==========")
-    print("Fetching data from API...")
-
-    response = requests.get(API_URL)
+    response = requests.get(COVID_URL, timeout=30)
     response.raise_for_status()
 
     data = response.json()
 
-    print(f"Records fetched: {len(data)}")
+    print(f"COVID records: {len(data)}")
 
     return data
 
 
-def save_json(data):
-    """Save JSON data locally."""
+def fetch_vaccine_data():
+    print("Fetching vaccination data...")
 
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get(VACCINE_URL, timeout=30)
+    response.raise_for_status()
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
+    data = response.json()
 
-    print(f"Data saved to {OUTPUT_FILE}")
+    df = pd.json_normalize(data)
+
+    df.to_csv(VACCINE_FILE, index=False)
+
+    print(f"Vaccination records: {len(df)}")
+    print(f"Saved -> {VACCINE_FILE}")
+
+
+def fetch_hospital_data():
+    print("Fetching hospital data...")
+
+    df = pd.read_csv(HOSPITAL_URL)
+
+    df.to_parquet(HOSPITAL_FILE, index=False)
+
+    print(f"Hospital records: {len(df)}")
+    print(f"Saved -> {HOSPITAL_FILE}")
+
+
+def save_covid_json(data):
+    with open(COVID_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+
+    print(f"Saved -> {COVID_FILE}")
 
 
 def main():
-    data = fetch_covid_data()
-    save_json(data)
+    print("=" * 50)
+    print("COVID-19 ETL Extraction Started")
+    print("=" * 50)
 
-    print("========== Data Extraction Completed ==========")
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+
+    covid_data = fetch_covid_data()
+    save_covid_json(covid_data)
+
+    fetch_vaccine_data()
+    fetch_hospital_data()
+
+    print("=" * 50)
+    print("Extraction Completed Successfully")
+    print("=" * 50)
 
 
 if __name__ == "__main__":
     main()
-
