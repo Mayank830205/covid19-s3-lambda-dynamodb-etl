@@ -26,4 +26,6 @@ package/
 
 # Raw Generated Data
 data/raw/*.json
+data/raw/*.csv
+data/raw/*.parquet
 !data/raw/.gitkeep
