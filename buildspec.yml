@@ -14,6 +14,7 @@ phases:
       - cp lambda/*.py package/
       - cd package && zip -r ../lambda-package.zip .
       - cd ..
+      - echo "Lambda package created successfully."
       - aws lambda update-function-code --function-name covid-lambda --zip-file fileb://lambda-package.zip
       - echo "covid Lambda functions updated successfully."
       - aws lambda update-function-code --function-name vaccine-lambda --zip-file fileb://lambda-package.zip
